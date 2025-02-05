@@ -44,7 +44,7 @@ img.addEventListener('click', function() {
         if (player.xpNext < player.xpMax) {
             player.xpNext++;
         }
-        while (player.xpNext % 3 != 0) {
+        while (player.xpNext % 3 != 0) { //|| player.xpNext == 6) && player.xpNext != 8) {
             player.xpNext++;
         }
 
@@ -540,6 +540,9 @@ function asignarPokemonesAGrid(arrayCompleto) {
             button.dataset.pokemonName = pokemon.name;
             button.dataset.battled = pokemon.battled;
             button.dataset.exp = pokemon.exp;
+            if (pokemon.name == "Ditto") {
+                button.dataset.exp = 5;
+            }
             button.dataset.collected = pokemon.collected;
             button.dataset.around = pokemon.around;
             button.dataset.unown = pokemon.unown;
@@ -656,7 +659,7 @@ function manejarClickButton(button) {
             button.style.backgroundColor = "beige";
 
             tableroPartida[x][y].item = "";
-        } else if (celda.item === "tabla_2" || celda.item === "tabla_3" ) {
+        } else if (celda.item === "tabla_2" || celda.item === "tabla_3") { 
             player.hp -= 1
             if (celda.pokemonName === "tabla" && celda.item == "tabla_3" ) {
                 tableroPartida[x][y].pokemonName = "tabla_2"
@@ -760,6 +763,7 @@ function manejarClickButton(button) {
         if (tableroPartida[x][y].pokemonName !== null) {
             addImageToButton(x, y, `./img/${tableroPartida[x][y].pokemonName}_mini.png`);
         }
+
         return;
     }
 
@@ -782,10 +786,16 @@ function manejarClickButton(button) {
             recolectarObjeto(celda, button);
         } else if (celda.pokemonName === "Mewtwo" && player.hp >= 0) {
             actualizarBotonTrasBatalla(button, celda, x, y);
+            img.src = "./img/Oro3.png";
             img.style.border = "2px solid gold";
 
         } else if (celda.collected !== "true" && celda.battled == "true") {
             actualizarBotonTrasBatalla(button, celda, x, y);
+        }
+
+        if (player.hp == 0) {
+            //alert("¡Has perdido! El HP ha llegado a 0.");
+            //img.src = "./img/Oro2.png";
         }
 
     } else if (celda.battled === "true") {
@@ -1294,7 +1304,6 @@ function addImageToButton(x, y, imagePath) {
         } else {
             img = document.createElement("img");
             img.src = imagePath;
-            img.style.marginLeft = "-1px";
             button.appendChild(img); // Si no hay imagen, agregar una nueva
         }
     }
@@ -1313,8 +1322,8 @@ const generarItemsAdicionales = () => {
         ...Array(1).fill({ cp: 1, name: "tabla", visible: false, battled: false, exp: 3, collected: false, around: 0, unown: false, item: "tabla_3" }),
         ...Array(1).fill({ cp: 1, name: "tabla", visible: false, battled: false, exp: 5, collected: false, around: 0, unown: false, item: "tabla_3" }),
         ...Array(2).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "pocion" }), //pocion
-        ...Array(2).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "experiencia" }), //experiencia
-        ...Array(2).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "destello" }), //destello
+        ...Array(1).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "experiencia" }), //experiencia
+        ...Array(1).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "destello" }), //destello
         ...Array(2).fill({ cp: 0, name: "destello", visible: true, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "" }),
         { cp: 5, name: "Unown_A", visible: false, battled: false, exp: 5, collected: false, around: 0, unown: true, item: "" },
         { cp: 5, name: "Unown_B", visible: false, battled: false, exp: 5, collected: false, around: 0, unown: true, item: "" },
