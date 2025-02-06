@@ -103,7 +103,7 @@ const fetchPokemonData = async () => {
             //console.log("Matriz agrupada por CP:", matrizPokemones);
 
             const pokemonesRandom = generarPokemonesRandom(matrizPokemones);
-            //console.log("Pokemones Random:", pokemonesRandom);
+            console.log("Pokemones Random:", pokemonesRandom);
 
             // Crear el array completo
             const arrayCompleto = crearArrayCompleto(pokemonesRandom);
@@ -168,10 +168,16 @@ const agruparPorCP = (pokemones) => {
 // Genera un array de pokemones aleatorios basado en las reglas
 const generarPokemonesRandom = (matrizPokemones) => {
     const pokemonesRandom = [];
+    const nombresAgregados = new Set(); // Conjunto para evitar duplicados por nombre
+    const cpContador = {}; // Para contar cuántos Pokémon se han agregado por CP
 
     // Lista de CP que se deben incluir completamente
     const incluirTodos = [0, 8, 9, 12, 18];
-    // Reglas para la cantidad de Pokémon que se seleccionarán aleatoriamente
+
+    // Lista de nombres que deben estar sí o sí
+    const nombresObligatorios = ["Bulbasaur", "Charmander", "Squirtle", "Gyarados", "Aerodactyl"];
+
+    // Reglas para la cantidad máxima de Pokémon por CP
     const seleccionRandomPorCP = {
         1: 11,
         2: 9,
@@ -182,25 +188,54 @@ const generarPokemonesRandom = (matrizPokemones) => {
         7: 5
     };
 
-    // Incluir Pokémon de los CP especificados completamente
+    // Inicializar el contador de CP
+    Object.keys(seleccionRandomPorCP).forEach(cp => cpContador[cp] = 0);
+
+    // 🔹 1) Incluir TODOS los Pokémon de los CP indicados en incluirTodos (sin restricciones)
     incluirTodos.forEach(cp => {
         const grupo = matrizPokemones.find(g => g.length > 0 && g[0].cp === cp);
         if (grupo) {
-            pokemonesRandom.push(...grupo);
+            grupo.forEach(pokemon => {
+                if (!nombresAgregados.has(pokemon.name)) {
+                    pokemonesRandom.push(pokemon);
+                    nombresAgregados.add(pokemon.name);
+                }
+            });
         }
     });
 
-    // Seleccionar aleatoriamente Pokémon según las reglas
+    // 🔹 2) Incluir Pokémon obligatorios si aún no están y respetando los límites de CP
+    nombresObligatorios.forEach(nombre => {
+        const pokemon = matrizPokemones.flat().find(p => p.name === nombre);
+        if (pokemon) {
+            const cp = pokemon.cp;
+            if (!nombresAgregados.has(nombre) && cpContador[cp] < seleccionRandomPorCP[cp]) {
+                pokemonesRandom.push(pokemon);
+                nombresAgregados.add(nombre);
+                cpContador[cp]++;
+            }
+        }
+    });
+
+    // 🔹 3) Seleccionar aleatoriamente Pokémon según las reglas de CP, evitando duplicados
     Object.entries(seleccionRandomPorCP).forEach(([cp, cantidad]) => {
         const grupo = matrizPokemones.find(g => g.length > 0 && g[0].cp === Number(cp));
         if (grupo) {
-            const seleccionados = seleccionarRandom(grupo, cantidad);
-            pokemonesRandom.push(...seleccionados);
+            const disponibles = grupo.filter(pokemon => !nombresAgregados.has(pokemon.name));
+            const seleccionados = seleccionarRandom(disponibles, cantidad - cpContador[cp]);
+
+            seleccionados.forEach(pokemon => {
+                pokemonesRandom.push(pokemon);
+                nombresAgregados.add(pokemon.name);
+                cpContador[cp]++;
+            });
         }
     });
 
     return pokemonesRandom;
 };
+
+
 
 // Selecciona un subconjunto de elementos aleatorios de un array
 const seleccionarRandom = (array, cantidad) => {
@@ -429,7 +464,7 @@ function ubicarObjetosEspeciales(arrayCompleto, posicionesDestellos, posicionesP
 
     // Obtener objetos que deben ser colocados
     const objetos = arrayCompleto.filter(item =>
-        ["bomba", "mochila", "Unown_A", "Unown_B", "blue", "lance", "Mew"].includes(item.name)
+        ["bomba", "mochila", "Unown_A", "Unown_B", "blue", "lance", "Mew"/*,"Bulbasaur","Charmander","Squirtle","Gyarados","Aerodactyl"*/].includes(item.name)
     );
 
     // Generar posiciones válidas
@@ -490,6 +525,7 @@ function ubicarObjetosEspeciales(arrayCompleto, posicionesDestellos, posicionesP
             if ((objeto.cp > 0 && objeto.name !== "tabla") || objeto.name === "Ditto") {
                 button.textContent = objeto.cp;
                 button.style.color = "yellow";
+                button.style.fontFamily = 'Calibri, sans-serif';
             }
             addImageToButton(x, y, `./img/${objeto.name}_mini.png`);
             const img = button.querySelector("img");
@@ -518,7 +554,7 @@ function asignarPokemonesAGrid(arrayCompleto) {
 
     // Filtrar los Pokémon restantes
     const pokemonesRestantes = arrayCompleto.filter(
-        item => item.name !== "Mewtwo" && item.name !== "destello" && item.name !== "pocion" && item.name !== "bomba" && item.name !== "mochila" && item.name !== "Unown_A" && item.name !== "Unown_B" && item.name !== "blue" && item.name !== "lance" && item.name !== "Mew"
+        item => item.name !== "Mewtwo" && item.name !== "destello" && item.name !== "pocion" && item.name !== "bomba" && item.name !== "mochila" && item.name !== "Unown_A" && item.name !== "Unown_B" && item.name !== "blue" && item.name !== "lance" && item.name !== "Mew"// && item.name !== "Bulbasaur" && item.name !== "Charmander" && item.name !== "Squirtle" && item.name !== "Gyarados" && item.name !== "Aerodactyl"
     );
 
     // Obtener todos los botones del grid que aún no tienen Pokémon asignado
@@ -573,7 +609,7 @@ function manejarClickButton(button) {
     const y = Number(button.dataset.y);
     const celda = tableroPartida[x][y];
 
-    if (!celda || player.hp < 0 || (tableroPartida[4][6].battled === "true")) return; // Si no hay celda, salir
+    if (!celda || player.hp < 0 || (tableroPartida[4][6].battled === "true") || ((celda.pokemonName==="tabla" || celda.pokemonName==="tabla_2" || celda.pokemonName==="tabla_3") && player.hp == 0 && celda.battled !== "true" )) return; // Si no hay celda, salir
 
     //REVISAR
     button.style.color = "";
@@ -613,6 +649,7 @@ function manejarClickButton(button) {
             const img = button.querySelector("img");
             if (img) {
                 button.style.color = "";
+                button.style.fontFamily = 'Calibri, sans-serif';
                 img.style.visibility = "visible";
             }
         
@@ -936,6 +973,7 @@ function actualizarRatitasEnButtonGrid(tablero) {
                     // Mostrar el texto en el botón
                     //button.textContent = celda.pokemonName || "1";
                     button.style.color = "yellow"; // Asegura que el texto sea visible
+                    button.style.fontFamily = 'Calibri, sans-serif';
                     
                     // Mostrar la imagen si tiene un pokemonName válido
                     if (celda.pokemonName) {
@@ -966,6 +1004,7 @@ function actualizarPulentasEnButtonGrid(tablero) {
                     // Mostrar el texto en el botón
                     //button.textContent = celda.pokemonName || "1";
                     button.style.color = "yellow"; // Asegura que el texto sea visible
+                    button.style.fontFamily = 'Calibri, sans-serif';
                     
                     // Mostrar la imagen si tiene un pokemonName válido
                     if (celda.pokemonName) {
@@ -1002,6 +1041,7 @@ function mostrarBotonesAlrededor(x, y, tablero) {
                         if (tableroPartida[nx][ny].visible !== "true") {
                             button.style.color = "yellow"; // Destacar el botón
                             button.style.backgroundColor = "#6C757D"; //btn-secondary
+                            button.style.fontFamily = 'Calibri, sans-serif';
                         }
                         
                         img.src = `./img/${celda.pokemonName}_mini.png`;
