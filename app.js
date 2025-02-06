@@ -28,8 +28,9 @@ var columnaPlayer = document.getElementById("columnaUnificada");
 var img = document.createElement("img");
 img.src = "./img/Oro.png"; // URL de la imagen
 img.alt = "Imagen"; // Texto alternativo
-img.style.border = "2px solid silver";
+img.style.border = "3px solid silver";
 img.style.background = "darkgray";
+img.style.borderRadius = "4px";
 //img.style.width = "100%"; // Ajustar el tamaño
 // Insertar la imagen en la celda
 columnaPlayer.appendChild(img);
@@ -38,7 +39,7 @@ img.addEventListener('click', function() {
     if (player.hp < 0 || (tableroPartida !== null && tableroPartida[4][6].battled == "true")) {
         window.location.replace(window.location.href);
     } else if (player.xp >= player.xpNext) {
-        img.style.border = "2px solid silver";
+        img.style.border = "3px solid silver";
         player.xp -= player.xpNext;
         
         if (player.xpNext < player.xpMax) {
@@ -541,7 +542,7 @@ function asignarPokemonesAGrid(arrayCompleto) {
             button.dataset.battled = pokemon.battled;
             button.dataset.exp = pokemon.exp;
             if (pokemon.name == "Ditto") {
-                button.dataset.exp = 5;
+                button.dataset.exp = 3;
             }
             button.dataset.collected = pokemon.collected;
             button.dataset.around = pokemon.around;
@@ -655,8 +656,8 @@ function manejarClickButton(button) {
             button.style.color = 'white';
             button.style.fontFamily = 'Calibri, sans-serif';
             button.style.fontSize = "11px";
-            button.style.border = "1px solid goldenrod";
-            button.style.backgroundColor = "beige";
+            button.style.border = "1px solid yellow";
+            button.style.backgroundColor = "darkgoldenrod";
 
             tableroPartida[x][y].item = "";
         } else if (celda.item === "tabla_2" || celda.item === "tabla_3") { 
@@ -695,8 +696,8 @@ function manejarClickButton(button) {
 
                 if (player.hp < 0) {
                     //alert("¡Has perdido! El HP ha llegado a 0.");
-                    img.style.filter = "grayscale(50%)";
-                    img.style.border = "2px solid red";
+                    img.style.filter = "grayscale(60%)";
+                    img.style.border = "3px solid red";
                     celda.battled = "false";
                     //img.style.visibility = "visible"; 
                 }
@@ -716,14 +717,14 @@ function manejarClickButton(button) {
                 button.style.color = 'white';
                 button.style.fontFamily = 'Calibri, sans-serif';
                 button.style.fontSize = "11px";
-                button.style.border = "1px solid cyan";
-                button.style.backgroundColor = "blue";
+                button.style.border = "1px solid lightblue";
+                button.style.backgroundColor = "royalblue";
             } else {
 
                 if (player.hp < 0) {
                     //alert("¡Has perdido! El HP ha llegado a 0.");
-                    img.style.filter = "grayscale(50%)";
-                    img.style.border = "2px solid red";
+                    img.style.filter = "grayscale(60%)";
+                    img.style.border = "3px solid red";
                     celda.battled = "false";
                     //img.style.visibility = "visible"; 
                 }
@@ -741,14 +742,14 @@ function manejarClickButton(button) {
                 button.style.color = 'white';
                 button.style.fontFamily = 'Calibri, sans-serif';
                 button.style.fontSize = "11px";
-                button.style.border = "1px solid cyan";
-                button.style.backgroundColor = "green";
+                button.style.border = "1px solid moccasin";
+                button.style.backgroundColor = "peru";
             } else {
 
                 if (player.hp < 0) {
                     //alert("¡Has perdido! El HP ha llegado a 0.");
-                    img.style.filter = "grayscale(50%)";
-                    img.style.border = "2px solid red";
+                    img.style.filter = "grayscale(60%)";
+                    img.style.border = "3px solid red";
                     celda.battled = "false";
                     //img.style.visibility = "visible"; 
                 }
@@ -774,8 +775,8 @@ function manejarClickButton(button) {
         celda.battled = "true";
         if (player.hp < 0) {
             //alert("¡Has perdido! El HP ha llegado a 0.");
-            img.style.filter = "grayscale(50%)";
-            img.style.border = "2px solid red";
+            img.style.filter = "grayscale(60%)";
+            img.style.border = "3px solid red";
             celda.battled = "false";
         }
         
@@ -787,7 +788,7 @@ function manejarClickButton(button) {
         } else if (celda.pokemonName === "Mewtwo" && player.hp >= 0) {
             actualizarBotonTrasBatalla(button, celda, x, y);
             img.src = "./img/Oro3.png";
-            img.style.border = "2px solid gold";
+            img.style.border = "3px solid gold";
 
         } else if (celda.collected !== "true" && celda.battled == "true") {
             actualizarBotonTrasBatalla(button, celda, x, y);
@@ -829,7 +830,7 @@ function recolectarObjeto(celda, button) {
         button.style.color = 'white';
         button.style.fontFamily = 'Calibri, sans-serif';
         button.style.fontSize = "11px";
-        button.style.border = "1px solid goldenrod";
+        button.style.border = "1px solid chocolate";
         button.style.backgroundColor = "khaki";
         
         //addImageToButton(celda.x, celda.y, `./img/${celda.pokemonName}_mini.png`);
@@ -844,7 +845,7 @@ function recolectarObjeto(celda, button) {
         button.style.color = 'white';
         button.style.fontFamily = 'Calibri, sans-serif';
         button.style.fontSize = "11px";
-        button.style.border = "1px solid goldenrod";
+        button.style.border = "1px solid chocolate";
         button.style.backgroundColor = "khaki";
         
         //addImageToButton(celda.x, celda.y, `./img/${celda.pokemonName}_mini.png`);
@@ -859,7 +860,7 @@ function recolectarObjeto(celda, button) {
         button.style.color = 'white';
         button.style.fontFamily = 'Calibri, sans-serif';
         button.style.fontSize = "11px";
-        button.style.border = "1px solid goldenrod";
+        button.style.border = "1px solid chocolate";
         button.style.backgroundColor = "khaki";
         
         //addImageToButton(celda.x, celda.y, `./img/${celda.pokemonName}_mini.png`);
@@ -993,22 +994,26 @@ function mostrarBotonesAlrededor(x, y, tablero) {
             );
 
             if (button) {
-                button.style.color = "yellow"; // Destacar el botón
-                tableroPartida[nx][ny].visible = "true";
-                
                 if (celda.pokemonName) {
                     let img = button.querySelector("img");
                     //tableroPartida[nx][ny].visible = "true";
                     //button.style.backgroundColor = "darkgray";
                     if (img) {
-                        button.style.backgroundColor = "#6C757D"; //btn-secondary
+                        if (tableroPartida[nx][ny].visible !== "true") {
+                            button.style.color = "yellow"; // Destacar el botón
+                            button.style.backgroundColor = "#6C757D"; //btn-secondary
+                        }
+                        
                         img.src = `./img/${celda.pokemonName}_mini.png`;
                         img.style.visibility = "visible"; // Mostrar imagen
                     } 
                 } else {
                     button.style.backgroundColor = "darkslategray";
+                    button.style.fontFamily = 'Calibri, sans-serif';
                     button.textContent = celda.cp === '?' ? '?' : (celda.around || '');
                 }
+
+                tableroPartida[nx][ny].visible = "true";
             }
         }
     });
@@ -1062,11 +1067,11 @@ function agregarBotonesEnFilaXP() {
     for (let i = 0; i < player.xpNext; i++) {
         let boton = document.createElement("button");
         boton.classList.add("btn", "btn-primary"); // Clases Bootstrap
-        boton.style.width = "22px";  // Tamaño cuadrado
-        boton.style.height = "22px"; // Tamaño cuadrado
+        boton.style.width = "23px";  // Tamaño cuadrado
+        boton.style.height = "23px"; // Tamaño cuadrado
         boton.style.padding = "0";   // Eliminar relleno interno
-        boton.style.borderRadius = "0px"; // Bordes ligeramente redondeados (opcional)
-        boton.style.margin = "0";    // Eliminar margen
+        boton.style.borderRadius = "2px"; // Bordes ligeramente redondeados (opcional)
+        boton.style.margin = "-0.5";    // Eliminar margen
         boton.style.border = "1px solid aliceblue"; // Bordes visibles (opcional)
         boton.style.background = "darkcyan";
         if (i >= player.xp) {
@@ -1078,7 +1083,7 @@ function agregarBotonesEnFilaXP() {
     }
 
     if (player.xp >= player.xpNext) {
-        img.style.border = "2px solid cyan";
+        img.style.border = "3px solid cyan";
     }
 
     // Verificar si player.xp es mayor a player.xpNext
@@ -1108,7 +1113,7 @@ function actualizarBotonTrasBatalla(button, celda, x, y) {
         button.style.fontFamily = 'Calibri, sans-serif';
         button.style.fontSize = "11px";
         button.style.border = "1px solid magenta";
-        button.style.backgroundColor = "Thistle";
+        button.style.backgroundColor = "thistle";
     }
 
     addImageToButton(x, y, `./img/${celda.pokemonName}_mini.png`);
@@ -1235,6 +1240,7 @@ function actualizarButtonGridConAround(tablero) {
                     button.textContent = celda.cp === '?' ? '?' : (celda.around || '');
                     //button.style.backgroundColor = "gray"; // Ejemplo: colorear los botones vacíos
                     button.style.color = 'white';
+                    button.style.fontFamily = 'Calibri, sans-serif';
 
                     if (celda.visible !== "true") {
                         button.style.color = "transparent";
@@ -1321,7 +1327,7 @@ const generarItemsAdicionales = () => {
         ...Array(1).fill({ cp: 1, name: "tabla", visible: false, battled: false, exp: 1, collected: false, around: 0, unown: false, item: "tabla_3" }),
         ...Array(1).fill({ cp: 1, name: "tabla", visible: false, battled: false, exp: 3, collected: false, around: 0, unown: false, item: "tabla_3" }),
         ...Array(1).fill({ cp: 1, name: "tabla", visible: false, battled: false, exp: 5, collected: false, around: 0, unown: false, item: "tabla_3" }),
-        ...Array(2).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "pocion" }), //pocion
+        ...Array(1).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "pocion" }), //pocion
         ...Array(1).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "experiencia" }), //experiencia
         ...Array(1).fill({ cp: 0, name: "mochila", visible: false, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "destello" }), //destello
         ...Array(2).fill({ cp: 0, name: "destello", visible: true, battled: true, exp: 0, collected: false, around: 0, unown: false, item: "" }),
