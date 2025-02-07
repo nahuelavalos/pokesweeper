@@ -613,7 +613,7 @@ function manejarClickButton(button) {
     const y = Number(button.dataset.y);
     const celda = tableroPartida[x][y];
 
-    if (!celda || player.hp < 0 || (tableroPartida[4][6].battled === "true") || ((celda.pokemonName==="tabla" || celda.pokemonName==="tabla_2" || celda.pokemonName==="tabla_3") && player.hp == 0 && celda.battled !== "true" )) return; // Si no hay celda, salir
+    if (!celda || player.hp < 0 || (tableroPartida[4][6].battled === "true") || ((celda.pokemonName==="tabla" || celda.pokemonName==="tabla_2" || celda.pokemonName==="tabla_3") && player.hp == 0 && celda.battled !== "true" && celda.visible === "true" )) return; // Si no hay celda, salir
 
     //REVISAR
     button.style.color = "";
