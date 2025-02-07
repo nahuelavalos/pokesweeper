@@ -1,3 +1,6 @@
+// Ocultar el contenedor principal al inicio
+document.getElementById("containerPrincipal").style.display = "none";
+
 document.body.style.backgroundColor = "black";
 document.body.style.color = "white";
 
@@ -96,34 +99,35 @@ const fetchPokemonData = async () => {
         const db = await response.json(); // Convertimos la respuesta a JSON
         if (db && Array.isArray(db)) {
             //console.log(db);
+            
             const pokemones = buscarPokemon(db); // Guardamos los Pokémon en el array
             //console.log(pokemones);
 
             const matrizPokemones = agruparPorCP(pokemones); // Agrupamos por CP
-            //console.log("Matriz agrupada por CP:", matrizPokemones);
+            //console.log(matrizPokemones);
 
             const pokemonesRandom = generarPokemonesRandom(matrizPokemones);
-            console.log("Pokemones Random:", pokemonesRandom);
+            //console.log(pokemonesRandom);
 
-            // Crear el array completo
             const arrayCompleto = crearArrayCompleto(pokemonesRandom);
             //console.log("Array completo:", arrayCompleto);
 
-            // Asignar Pokémon al button grid
             const tableroMatriz = asignarPokemonesAGrid(arrayCompleto);
             //console.log(tableroMatriz);
 
-            // Llamar a la función después de generar la matriz tablero
             tableroPartida = calcularAroundParaCeldasVacias(tableroMatriz);
-            console.log(tableroPartida);
+            //console.log(tableroPartida);
 
-            //tableroCompleto = actualizarButtonGridConAround(tableroPartida);
             actualizarButtonGridConAround(tableroPartida);
 
-            //Para que cargue con menos delay todos los objetos
-            //Promise.resolve().then(() => {
-            //    document.getElementById("containerPrincipal").style.display = "block";
-            //});
+            img.onload = () => {
+                console.log("Imagen cargada");
+                document.getElementById("containerPrincipal").style.display = "block";
+            };
+            if (img.complete) {
+                console.log("Imagen ya estaba en caché");
+                document.getElementById("containerPrincipal").style.display = "block";
+            }
         }
     } catch (err) {
         console.log(err);
