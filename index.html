@@ -18,22 +18,41 @@
        
         <div id="containerPrincipal" class="container-fluid"> <!--style="display: none"-->
       
-            <div class="container mt-4">
-                <div id="buttonGrid" class="d-flex flex-wrap justify-content-center" style="display: flex; flex-direction: column; align-items: center"></div>
-               
-                  <div id="playerContainer" class="table-responsive" style="max-width: 752px; margin: auto; border-radius: 6px;">
-                      <table id="miTabla" class="table table-borderless text-center align-middle w-100" style="margin: 0">
-                          <tr>
-                              <td id="columnaUnificada" rowspan="2" style="width: 15%;"></td> 
-                              <td id="filaHP" style="width: 85%; margin-top: 4px;"></td>
-                          </tr>
-                          <tr>
-                              <td id="filaXP" style=" margin-top: -44"></td>
-                          </tr>
-                      </table>
-                  </div>
-               
-            </div>
+
+
+
+
+
+
+
+          <div class="container mt-4 d-flex justify-content-center align-items-center">
+    <!-- Columna de botones a la izquierda -->
+    <div id="buttonColumn" class="d-flex flex-column me-3" style="margin-top: -112;">
+        <!-- Se generan 9 botones con JavaScript -->
+    </div>
+
+    <!-- Contenedor de botones y player en columna -->
+    <div id="mainContent" class="d-flex flex-column align-items-center">
+        <!-- Grid de botones -->
+        <div id="buttonGrid" class="d-flex flex-wrap justify-content-center"
+            style="display: flex; flex-direction: column; align-items: center;">
+        </div>
+
+        <!-- Contenedor del player debajo del buttonGrid -->
+        <div id="playerContainer" class="table-responsive"
+            style="width: 752px; margin: auto; border-radius: 6px;">
+            <table id="miTabla" class="table table-borderless text-center align-middle w-100" style="margin: 0;">
+                <tr>
+                    <td id="columnaUnificada" rowspan="2" style="width: 15%;"></td> 
+                    <td id="filaHP" style="width: 85%; margin-top: 4px;"></td>
+                </tr>
+                <tr>
+                    <td id="filaXP" style="margin-top: -44;"></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 
         </div>
 

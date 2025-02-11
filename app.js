@@ -13,6 +13,11 @@ document.querySelectorAll("#miTabla td, #miTabla th").forEach(element => {
 
 // Declarar matrizPokemones como variable global
 let tableroPartida = []
+
+let iniciales = 0;
+let campeones = 0;
+let legendarios = 0;
+
 let player = {
     hpMax: 18,
     hpLimit: 5,
@@ -24,6 +29,7 @@ let player = {
 }
 
 console.log(player)
+
 
 // Seleccionar la primera columna
 var columnaPlayer = document.getElementById("columnaUnificada");
@@ -63,12 +69,61 @@ img.addEventListener('click', function() {
     }
 });
 
-
-
 agregarCorazonesEnFilaHP()
 agregarBotonesEnFilaXP();
 
+// Generar los 9 botones en la columna izquierda
+const buttonColumn = document.getElementById("buttonColumn");
+for (let i = 0; i < 9; i++) {
+    let button = document.createElement("button");
 
+    button.style.pointerEvents = "none";
+
+    button.style.width = "50px";
+    button.style.height = "50px";
+
+    button.style.marginTop = "6px";  
+    if (i % 3 === 0) {
+        button.style.marginTop = "28px";  
+    }
+
+    button.classList.add("btn", "btn-primary"); // Agrega estilos de Bootstrap
+    button.style.backgroundColor = "transparent"
+
+    button.id = `btn-${i}`;
+    button.style.color = "whitesmoke";
+    button.style.fontFamily = 'Calibri, sans-serif';
+
+    if (i == 0) {
+      button.style.border = "1px solid darkgreen";
+      button.textContent = 3;
+    } else if (i == 1) {
+      button.style.border = "1px solid darkred";
+      button.textContent = 3;
+    } else if (i == 2) {
+      button.style.border = "1px solid mediumblue";
+      button.textContent = 3;
+    } else if (i == 3) {
+      button.style.border = "1px solid darkcyan";
+      button.textContent = 6;
+    } else if (i == 4) {
+      button.style.border = "1px solid gray";
+      button.textContent = 7;
+    } else if (i == 5) {
+      button.style.border = "1px solid peru";
+      button.textContent = 8;
+    } else if (i == 6) {
+      button.style.border = "1px solid lightblue";
+      button.textContent = 9;
+    } else if (i == 7) {
+      button.style.border = "1px solid gold";
+      button.textContent = 9;
+    } else if (i == 8) {
+      button.style.border = "1px solid firebrick";
+      button.textContent = 9;
+    }
+    buttonColumn.appendChild(button);
+}
 
 document.getElementById("filaXP").addEventListener("click", function() {
     // Limpiar contenido previo
@@ -91,7 +146,6 @@ document.getElementById("filaXP").addEventListener("click", function() {
     // Agregar el contenedor con los botones a la celda
     this.appendChild(buttonContainer);
 });
-
 
 const fetchPokemonData = async () => {
     try {
@@ -238,8 +292,6 @@ const generarPokemonesRandom = (matrizPokemones) => {
 
     return pokemonesRandom;
 };
-
-
 
 // Selecciona un subconjunto de elementos aleatorios de un array
 const seleccionarRandom = (array, cantidad) => {
@@ -468,7 +520,7 @@ function ubicarObjetosEspeciales(arrayCompleto, posicionesDestellos, posicionesP
 
     // Obtener objetos que deben ser colocados
     const objetos = arrayCompleto.filter(item =>
-        ["bomba", "mochila", "Unown_A", "Unown_B", "blue", "lance", "Mew"/*,"Bulbasaur","Charmander","Squirtle","Gyarados","Aerodactyl"*/].includes(item.name)
+        ["bomba", "mochila", "Unown_A", "Unown_B", "blue", "lance", "Mew"].includes(item.name)
     );
 
     // Generar posiciones válidas
@@ -614,6 +666,18 @@ function manejarClickButton(button) {
     const celda = tableroPartida[x][y];
 
     if (!celda || player.hp < 0 || (tableroPartida[4][6].battled === "true") || ((celda.pokemonName==="tabla" || celda.pokemonName==="tabla_2" || celda.pokemonName==="tabla_3") && player.hp == 0 && celda.battled !== "true" && celda.visible === "true" )) return; // Si no hay celda, salir
+
+    if (player.hp - celda.cp >= 0 && celda.pokemonName == "blue" && iniciales < 3) {
+        button.style.border = "1px solid lightblue";
+        return
+    } else if (player.hp - celda.cp >= 0 && celda.pokemonName == "lance" && campeones < 3) {
+        button.style.border = "1px solid moccasin";
+        return
+    } else if (player.hp - celda.cp >= 0 && celda.pokemonName == "Mew" && legendarios < 3) {
+        button.style.border = "1px solid magenta";
+        return
+    }
+
 
     //REVISAR
     button.style.color = "";
@@ -819,6 +883,45 @@ function manejarClickButton(button) {
             img.style.filter = "grayscale(60%)";
             img.style.border = "3px solid red";
             celda.battled = "false";
+        } else if (["Bulbasaur", "Charmander", "Squirtle"].includes(celda.pokemonName)) {
+            iniciales++;
+            console.log("iniciales:", iniciales);
+            if (iniciales >= 3) {
+                actualizarRivalEnButtonGrid(tableroPartida, "blue");
+            }
+            if (celda.pokemonName === "Bulbasaur") {
+                setButtonImage(0, celda.pokemonName);
+            } else if (celda.pokemonName === "Charmander") {
+                setButtonImage(1, celda.pokemonName);
+            } else if (celda.pokemonName === "Squirtle") {
+                setButtonImage(2, celda.pokemonName);
+            }
+        } else if (["Gyarados", "Aerodactyl", "Dragonite"].includes(celda.pokemonName)) {
+            campeones++;
+            console.log("campeones:", campeones);
+            if (campeones >= 3) {
+                actualizarRivalEnButtonGrid(tableroPartida, "lance");
+            }
+            if (celda.pokemonName === "Gyarados") {
+                setButtonImage(3, celda.pokemonName);
+            } else if (celda.pokemonName === "Aerodactyl") {
+                setButtonImage(4, celda.pokemonName);
+            } else if (celda.pokemonName === "Dragonite") {
+                setButtonImage(5, celda.pokemonName);
+            }
+        } else if (["Articuno", "Zapdos", "Moltres"].includes(celda.pokemonName)) {
+            legendarios++;
+            console.log("legendarios:", legendarios);
+            if (legendarios >= 3) {
+                actualizarRivalEnButtonGrid(tableroPartida, "Mew");
+            }
+            if (celda.pokemonName === "Articuno") {
+                setButtonImage(6, celda.pokemonName);
+            } else if (celda.pokemonName === "Zapdos") {
+                setButtonImage(7, celda.pokemonName);
+            } else if (celda.pokemonName === "Moltres") {
+                setButtonImage(8, celda.pokemonName);
+            }
         }
         
         agregarCorazonesEnFilaHP()
@@ -846,6 +949,16 @@ function manejarClickButton(button) {
 
     console.log("PLAYER ATACADO", player);
     console.log("TABLERO MODIFICADO", tableroPartida);
+}
+
+function setButtonImage(position, imageName) {
+    let button = document.getElementById(`btn-${position}`);
+    if (button) {
+        button.textContent = ""
+        button.style.backgroundImage = `url(img/${imageName}_cara.png)`;
+        button.style.backgroundSize = "cover";  // Ajustar la imagen al botón
+        button.style.backgroundPosition = "center"; // Centrar la imagen
+    }
 }
 
 function recolectarObjeto(celda, button) {
@@ -978,6 +1091,55 @@ function actualizarRatitasEnButtonGrid(tablero) {
                     //button.textContent = celda.pokemonName || "1";
                     button.style.color = "yellow"; // Asegura que el texto sea visible
                     button.style.fontFamily = 'Calibri, sans-serif';
+                    
+                    // Mostrar la imagen si tiene un pokemonName válido
+                    if (celda.pokemonName) {
+                        let img = button.querySelector("img");
+                        img.src = `./img/${celda.pokemonName}_mini.png`;
+                        img.style.visibility = "visible"; // Asegura que la imagen se vea
+                    }
+                }
+            }
+        }
+    }
+}
+
+function actualizarRivalEnButtonGrid(tablero, rival) {
+    const rows = tablero.length;
+    const cols = tablero[0].length;
+
+    for (let x = 0; x < rows; x++) {
+        for (let y = 0; y < cols; y++) {
+            const celda = tablero[x][y];
+
+            if (celda !== null && celda !== undefined && celda.pokemonName === rival) {
+                const button = Array.from(buttonGrid.querySelectorAll("button")).find(
+                    btn => btn.dataset.x == x && btn.dataset.y == y
+                );
+
+                if (button) {
+                    // Mostrar el texto en el botón
+                    //button.textContent = celda.pokemonName || "1";
+                    //button.style.color = "yellow"; // Asegura que el texto sea visible
+                    //button.style.fontFamily = 'Calibri, sans-serif';
+                    if (rival == "blue") {
+                        button.style.border = "1px solid lightblue";
+                        button.style.color = "yellow"; // Asegura que el texto sea visible
+                        button.style.fontFamily = 'Calibri, sans-serif';
+                        //button.textContent = celda.cp;
+                        //button.style.backgroundColor = "royalblue";
+                    } else if (rival == "lance") {
+                        button.style.border = "1px solid moccasin";
+                        button.style.color = "yellow"; // Asegura que el texto sea visible
+                        button.style.fontFamily = 'Calibri, sans-serif';
+                        //button.style.backgroundColor = "peru";
+                    } else if (rival == "Mew") {
+                        button.style.border = "1px solid magenta";
+                        button.style.color = "yellow"; // Asegura que el texto sea visible
+                        button.style.fontFamily = 'Calibri, sans-serif';
+                        //button.style.backgroundColor = "thistle";
+                    }
+                    
                     
                     // Mostrar la imagen si tiene un pokemonName válido
                     if (celda.pokemonName) {
