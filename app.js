@@ -689,7 +689,7 @@ function manejarClickButton(button) {
         if (img) {
             img.style.visibility = "visible"; // Oculta la imagen
         }
-        revelarTablero(tableroPartida)
+        //revelarTablero(tableroPartida)
     }
 
     if (tableroPartida[x][y].visible !== "true" && (celda.item == "experiencia" || celda.item == "pocion" || celda.item == "destello" || (celda.pokemonName == "bomba" && celda.battled === "true") || celda.pokemonName == "pocion" || celda.pokemonName == "tabla")) {
