@@ -689,7 +689,6 @@ function manejarClickButton(button) {
         if (img) {
             img.style.visibility = "visible"; // Oculta la imagen
         }
-        //revelarTablero(tableroPartida)
     }
 
     if (tableroPartida[x][y].visible !== "true" && (celda.item == "experiencia" || celda.item == "pocion" || celda.item == "destello" || (celda.pokemonName == "bomba" && celda.battled === "true") || celda.pokemonName == "pocion" || celda.pokemonName == "tabla")) {
@@ -805,6 +804,7 @@ function manejarClickButton(button) {
                     img.style.filter = "grayscale(60%)";
                     img.style.border = "3px solid red";
                     celda.battled = "false";
+                    revelarTablero(tableroPartida)
                     //img.style.visibility = "visible"; 
                 }
 
@@ -832,6 +832,7 @@ function manejarClickButton(button) {
                     img.style.filter = "grayscale(60%)";
                     img.style.border = "3px solid red";
                     celda.battled = "false";
+                    revelarTablero(tableroPartida)
                     //img.style.visibility = "visible"; 
                 }
 
@@ -857,6 +858,7 @@ function manejarClickButton(button) {
                     img.style.filter = "grayscale(60%)";
                     img.style.border = "3px solid red";
                     celda.battled = "false";
+                    revelarTablero(tableroPartida)
                     //img.style.visibility = "visible"; 
                 }
 
@@ -884,6 +886,7 @@ function manejarClickButton(button) {
             img.style.filter = "grayscale(60%)";
             img.style.border = "3px solid red";
             celda.battled = "false";
+            revelarTablero(tableroPartida)
         } else if (["Bulbasaur", "Charmander", "Squirtle"].includes(celda.pokemonName)) {
             iniciales++;
             console.log("iniciales:", iniciales);
