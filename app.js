@@ -689,6 +689,7 @@ function manejarClickButton(button) {
         if (img) {
             img.style.visibility = "visible"; // Oculta la imagen
         }
+        revelarTablero(tableroPartida)
     }
 
     if (tableroPartida[x][y].visible !== "true" && (celda.item == "experiencia" || celda.item == "pocion" || celda.item == "destello" || (celda.pokemonName == "bomba" && celda.battled === "true") || celda.pokemonName == "pocion" || celda.pokemonName == "tabla")) {
@@ -1177,6 +1178,32 @@ function actualizarPulentasEnButtonGrid(tablero) {
                         let img = button.querySelector("img");
                         img.src = `./img/${celda.pokemonName}_mini.png`;
                         img.style.visibility = "visible"; // Asegura que la imagen se vea
+                    }
+                }
+            }
+        }
+    }
+}
+
+function revelarTablero(tablero) {
+    const rows = tablero.length;
+    const cols = tablero[0].length;
+
+    for (let x = 0; x < rows; x++) {
+        for (let y = 0; y < cols; y++) {
+            const celda = tablero[x][y];
+
+            if (celda !== null && celda !== undefined) {
+                const button = Array.from(buttonGrid.querySelectorAll("button")).find(
+                    btn => btn.dataset.x == x && btn.dataset.y == y
+                );
+
+                if (button) {
+                    if (celda.pokemonName) {
+                        let img = button.querySelector("img");
+                        img.src = `./img/${celda.pokemonName}_mini.png`;
+                        img.style.visibility = "visible";
+                        button.style.color = "gold";
                     }
                 }
             }
