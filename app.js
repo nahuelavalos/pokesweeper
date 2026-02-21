@@ -1,3 +1,16 @@
+// Tutorial panel handling
+const helpButton = document.getElementById("helpButton");
+const tutorialPanel = document.getElementById("tutorialPanel");
+
+// Abrir/cerrar panel al hacer clic en el botón de ayuda
+helpButton.addEventListener('click', function() {
+    if (tutorialPanel.style.display === "none") {
+        tutorialPanel.style.display = "block";
+    } else {
+        tutorialPanel.style.display = "none";
+    }
+});
+
 // Ocultar el contenedor principal al inicio
 document.getElementById("containerPrincipal").style.display = "none";
 
