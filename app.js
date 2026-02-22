@@ -11,6 +11,11 @@ helpButton.addEventListener('click', function() {
     }
 });
 
+document.getElementById("helpButtonLeft").addEventListener("click", function () {
+    const panel = document.getElementById("tutorialPanelLeft");
+    panel.style.display = panel.style.display === "none" ? "block" : "none";
+});
+
 // Ocultar el contenedor principal al inicio
 document.getElementById("containerPrincipal").style.display = "none";
 

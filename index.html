@@ -17,14 +17,25 @@
         </nav-->
        
         <!-- Botón de ayuda -->
-        <div style="position: fixed; top: 20px; right: 20px; z-index: 1000;">
-            <button id="helpButton" class="btn btn-info" style="width: 50px; height: 50px; border-radius: 50%; font-size: 24px; font-weight: bold;">?</button>
+        <div style="position: fixed; top: 14px; right: 14px; z-index: 1000;">
+            <button id="helpButton" class="btn btn-outline-info" style="width: 40px; height: 40px; border-radius: 50%; font-size: 14px; font-weight: bold; padding-left:3px;">HELP</button>
         </div>
-
         <!-- Panel de tutorial (lado superior derecho) -->
-        <div id="tutorialPanel" style="display: none; position: fixed; top: 80px; right: 20px; width: auto; max-width: 350px; background-color: #222; border: 3px solid #fff; border-radius: 10px; padding: 15px; z-index: 999; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); max-height: 600px; overflow-y: auto;">
+        <div id="tutorialPanel" style="display: none; position: fixed; top: 70px; right: 20px; width: auto; max-width: 350px; background-color: #222; border: 3px solid #fff; border-radius: 10px; padding: 15px; z-index: 999; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5); max-height: 600px; overflow-y: auto;">
             <div style="text-align: center;">
                 <img id="tutorialImage" src="./img/tutorial.png" alt="Tutorial" style="max-width: 100%; height: auto; display: block; border-radius: 5px;">
+            </div>
+        </div>
+
+        <!-- Contenedor izquierda -->
+        <div style="position: fixed; top: 14px; left: 14px; z-index: 1000;">
+            <!-- Botón -->
+            <button id="helpButtonLeft" class="btn btn-outline-success" style="width:40px; height:40px; border-radius:50%; font-size:14px; font-weight:bold; display:flex; align-items:center; justify-content:flex-start;padding-left:3px;">INFO</button>
+            <!-- Panel -->
+            <div id="tutorialPanelLeft" style="display: none; position: absolute; top: 50px; left: 0; width: 300px; background-color: #222; border: 3px solid #fff; border-radius: 10px; padding: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.5);">
+                <div style="text-align:center;">
+                    <img src="./img/tutorial3.png" style="max-width:100%; border-radius:5px;">
+                </div>
             </div>
         </div>
 
