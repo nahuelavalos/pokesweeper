@@ -195,10 +195,12 @@ const fetchPokemonData = async () => {
             img.onload = () => {
                 console.log("Imagen cargada");
                 document.getElementById("containerPrincipal").style.display = "block";
+                ajustarEscalaTablero();
             };
             if (img.complete) {
                 console.log("Imagen ya estaba en caché");
                 document.getElementById("containerPrincipal").style.display = "block";
+                ajustarEscalaTablero();
             }
         }
     } catch (err) {
@@ -1608,9 +1610,11 @@ function ajustarEscalaTablero() {
     const el = document.getElementById('gameScale');
     if (!el) return;
 
-    // Medir el ancho natural del tablero (sin escalar)
-    el.style.zoom = '1';
-    const anchoNatural = el.scrollWidth;
+    // Medir el ancho natural sin tocar el zoom: tomamos el ancho renderizado actual
+    // y lo dividimos por el zoom aplicado. (Resetear el zoom para medir scrollWidth
+    // no funciona en el primer render porque el reflow del zoom no se aplica a tiempo.)
+    const zoomActual = parseFloat(el.style.zoom) || 1;
+    const anchoNatural = el.getBoundingClientRect().width / zoomActual;
     if (!anchoNatural) return;
 
     // Ancho disponible en la ventana, dejando un pequeño margen
@@ -1624,5 +1628,7 @@ function ajustarEscalaTablero() {
 window.addEventListener('load', ajustarEscalaTablero);
 window.addEventListener('resize', ajustarEscalaTablero);
 window.addEventListener('orientationchange', ajustarEscalaTablero);
-// Recalcular cuando el contenedor principal se vuelve visible (carga de imágenes)
+document.addEventListener('DOMContentLoaded', ajustarEscalaTablero);
+// Recalcular tras el primer pintado (cuando el layout ya está estable)
+requestAnimationFrame(() => requestAnimationFrame(ajustarEscalaTablero));
 ajustarEscalaTablero();
