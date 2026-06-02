@@ -1600,3 +1600,29 @@ const crearArrayCompleto = (pokemonesRandom) => {
 };
 
 fetchPokemonData()
+
+// ----- Autoescalado del tablero para que entre en pantallas chicas (celulares) -----
+// El tablero tiene tamaños fijos (~820px de ancho). En la PC se ve en escala 1;
+// en un celular se achica automáticamente para entrar a lo ancho sin scroll horizontal.
+function ajustarEscalaTablero() {
+    const el = document.getElementById('gameScale');
+    if (!el) return;
+
+    // Medir el ancho natural del tablero (sin escalar)
+    el.style.zoom = '1';
+    const anchoNatural = el.scrollWidth;
+    if (!anchoNatural) return;
+
+    // Ancho disponible en la ventana, dejando un pequeño margen
+    const anchoDisponible = document.documentElement.clientWidth - 8;
+
+    // No agrandar en pantallas grandes: tope en 1
+    const escala = Math.min(1, anchoDisponible / anchoNatural);
+    el.style.zoom = escala;
+}
+
+window.addEventListener('load', ajustarEscalaTablero);
+window.addEventListener('resize', ajustarEscalaTablero);
+window.addEventListener('orientationchange', ajustarEscalaTablero);
+// Recalcular cuando el contenedor principal se vuelve visible (carga de imágenes)
+ajustarEscalaTablero();

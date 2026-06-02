@@ -7,6 +7,33 @@
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link rel="icon" href="/img/icon.png" type="image/png">
+    <style>
+      /* En celulares: mover los botones INFO y HELP debajo del tablero
+         para que no se superpongan con el tablero escalado. */
+      @media (max-width: 820px) {
+        #helpButtonContainer {
+          top: auto !important;
+          bottom: 14px !important;
+          right: 14px !important;
+        }
+        #infoButtonContainer {
+          top: auto !important;
+          bottom: 14px !important;
+          left: 14px !important;
+        }
+        /* Los paneles se abren hacia arriba para no quedar fuera de pantalla */
+        #tutorialPanel {
+          top: auto !important;
+          bottom: 70px !important;
+          right: 14px !important;
+          max-height: 70vh !important;
+        }
+        #tutorialPanelLeft {
+          top: auto !important;
+          bottom: 56px !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container-fluid">
@@ -17,7 +44,7 @@
         </nav-->
        
         <!-- Botón de ayuda -->
-        <div style="position: fixed; top: 14px; right: 14px; z-index: 1000;">
+        <div id="helpButtonContainer" style="position: fixed; top: 14px; right: 14px; z-index: 1000;">
             <button id="helpButton" class="btn btn-outline-info" style="width: 46px; height: 46px; border-radius: 50%; font-size: 14px; font-weight: bold; padding-left: 4px;">HELP</button>
         </div>
         <!-- Panel de tutorial (lado superior derecho) -->
@@ -28,7 +55,7 @@
         </div>
 
         <!-- Contenedor izquierda -->
-        <div style="position: fixed; top: 14px; left: 14px; z-index: 1000;">
+        <div id="infoButtonContainer" style="position: fixed; top: 14px; left: 14px; z-index: 1000;">
             <!-- Botón -->
             <button id="helpButtonLeft" class="btn btn-outline-success" style="width:46px; height:46px; border-radius:50%; font-size:14px; font-weight:bold; display:flex; align-items:center; justify-content:flex-start; padding-left: 5px;">INFO</button>
             <!-- Panel -->
@@ -49,6 +76,8 @@
 
 
           <div class="container mt-4 d-flex justify-content-center align-items-center">
+    <!-- Wrapper que se autoescala para entrar en pantallas chicas (celulares) -->
+    <div id="gameScale" class="d-flex align-items-center" style="width: max-content; transform-origin: top center;">
     <!-- Columna de botones a la izquierda -->
     <div id="buttonColumn" class="d-flex flex-column me-3" style="margin-top: -112;">
         <!-- Se generan 9 botones con JavaScript -->
@@ -75,6 +104,7 @@
             </table>
         </div>
     </div>
+    </div> <!-- /#gameScale -->
 </div>
 
         </div>
